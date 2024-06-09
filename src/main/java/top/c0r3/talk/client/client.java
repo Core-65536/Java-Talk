@@ -13,7 +13,6 @@ import java.util.Scanner;
 public class client extends Thread{
     private volatile int RunningMode = 0;
     private static ServerInfo ConnectTo = new ServerInfo();
-    private String key = "";
     public void Init() {
         while(RunningMode == 0){
             Scanner sc = new Scanner(System.in);
