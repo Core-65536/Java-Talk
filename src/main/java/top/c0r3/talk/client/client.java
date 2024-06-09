@@ -8,6 +8,10 @@ import top.c0r3.talk.server.server;
 
 import java.io.*;
 import java.net.Socket;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class client{
@@ -43,6 +47,7 @@ public class client{
             }
         }
         try{
+            //连接到对方
             Socket s = new Socket(ConnectTo.ServerIP, ConnectTo.ServerPort);
             PrintWriter out = new PrintWriter(s.getOutputStream(), true);
             BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in));
@@ -56,13 +61,12 @@ public class client{
                 while(true){
                     try{
                         String input;
-                        while ((input = consoleInput.readLine()) != null) {
-                            Command.Process(input);
+                        while ((input = consoleInput.readLine()) != null) {//读取控制台输入
+                            Command.Process(input);//处理命令
                             if(!input.startsWith("/")){
-                                input += "\n";
-                                input = ZzSecurityHelper.encryptAES(input);
-                                out.println(input);
-                                out.flush();
+                                input = ZzSecurityHelper.encryptAES(input);//加密
+                                SendMsgToSQL(server.SelfServerInfo.ServerName, input);//发送到数据库
+                                out.println(input);//发送到对方
                             }
                         }
                     }catch(Exception e){
@@ -72,6 +76,21 @@ public class client{
             }).start();
 
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private void SendMsgToSQL(String Name, String msg){
+        String url = "jdbc:mysql://oj.c0r3.top:3306/java-talk";
+        String usr = "Java-Talk";
+        String pwd = System.getenv("DB_PASSWORD");
+
+        String sql = "INSERT INTO `messages` (`nickname`,`timestamp`, `message`) VALUES (? , NOW() , ?)";
+        try(Connection conn = DriverManager.getConnection(url, usr, pwd);
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setString(1, Name);
+            stmt.setString(2, msg);
+            stmt.executeUpdate();
+        }catch (SQLException e){
             throw new RuntimeException(e);
         }
     }
