@@ -2,7 +2,10 @@ package top.c0r3.talk.server;
 
 import top.c0r3.talk.encrypt.ZzSecurityHelper;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -34,11 +37,7 @@ public class server {
                 System.out.println("Connecting with "+ConnectServerInfo.ServerName+
                         " ,input /reject to reject the connection");
             }
-
             BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
-            PrintWriter out = new PrintWriter(s.getOutputStream(), true);
-            BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in));
-
             // 创建一个线程读取客户端消息并打印到控制台
             new Thread(() -> {
                 try {
