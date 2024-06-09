@@ -6,8 +6,7 @@ public class Command {
             return;
         }
         switch (command) {
-            case "/exit" -> System.exit(0);
-            case "/reject" -> System.exit(0);
+            case "/exit", "/reject" -> System.exit(0);
             case "/help" -> {
                 System.out.println("Command List:");
                 System.out.println("/exit: Exit the program");
@@ -19,15 +18,10 @@ public class Command {
                 System.out.print("\033[H\033[2J");
                 System.out.flush();
             }
-            case "/accept" -> {
+            case "/accept", "/connect" -> {
                 //Do nothing
             }
-            case "/connect" -> {
-                //Do nothing
-            }
-            default -> {
-                System.out.println("Unknown Command, type /help to show command list");
-            }
+            default -> System.out.println("Unknown Command, type /help to show command list");
         }
     }
 }
