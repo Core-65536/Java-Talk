@@ -60,8 +60,14 @@ public class server {
                     throw new RuntimeException(e);
                 }
             }).start();
-        }catch(Exception e){
-            e.printStackTrace();
+        }catch(java.net.BindException e){
+            System.out.println("端口被占用,程序即将退出");
+            System.exit(0);
+        }catch(IOException | ClassNotFoundException e){
+            throw new RuntimeException(e);
+        }catch(java.lang.IllegalArgumentException e){
+            System.out.println("输入非法,程序即将退出");
+            System.exit(0);
         }
     }
 }
