@@ -16,7 +16,10 @@ public class ZzSecurityHelper {
     public static void setKey(String key) {
         ZzSecurityHelper.key = key;
     }
-    private static final String iv ="NIfb&CoreY86Gfgh";
+    private static String iv ="NIfb&CoreY86Gfgh";
+    public static  void setIv(String iv){
+        ZzSecurityHelper.iv = iv;
+    }
     public static String encryptAES(String data){
         try {
             Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");

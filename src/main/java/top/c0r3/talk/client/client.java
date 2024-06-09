@@ -43,6 +43,7 @@ public class client{
                 String seed = sc.next();
 
                 ZzSecurityHelper.setKey(kg.generateKey(seed));
+                ZzSecurityHelper.setIv(kg.generateKey(seed+seed));
                 RunningMode = 1;
             }
         }

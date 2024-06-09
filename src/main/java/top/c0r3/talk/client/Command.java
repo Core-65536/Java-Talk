@@ -34,6 +34,7 @@ public class Command {
                 String seed = sc.next();
                 generateEncryptKey kg = new generateEncryptKey();
                 ZzSecurityHelper.setKey(kg.generateKey(seed));
+                ZzSecurityHelper.setIv(kg.generateKey(seed+seed));
 
                 System.out.print("Input Your NickName:");
                 String nickname = sc.next();

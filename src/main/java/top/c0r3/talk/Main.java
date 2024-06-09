@@ -24,6 +24,7 @@ public class Main {
           String seed = sc.next();
 
           ZzSecurityHelper.setKey(kg.generateKey(seed));
+          ZzSecurityHelper.setIv(kg.generateKey(seed+seed));
           server.SelfServerInfo = serverInfo;
 
           server server = new server();
