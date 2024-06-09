@@ -46,7 +46,9 @@ public class client{
                 RunningMode = 1;
             }
         }
-        try(Socket s = new Socket(ConnectTo.ServerIP, ConnectTo.ServerPort)){
+        try{
+            @SuppressWarnings("resource")
+            Socket s = new Socket(ConnectTo.ServerIP, ConnectTo.ServerPort);
             //连接到对方
             PrintWriter out = new PrintWriter(s.getOutputStream(), true);
             BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in));
