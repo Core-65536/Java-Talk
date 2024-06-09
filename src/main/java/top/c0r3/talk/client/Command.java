@@ -19,7 +19,6 @@ public class Command {
                 System.out.println("/help: Show this message");
                 System.out.println("/clear: Clear the screen");
                 System.out.println("/connect: Connect to another person");
-                System.out.println("/accept: Accept the connection");
                 System.out.println("/record: Record the chat history");
             }
             case "/clear" -> {

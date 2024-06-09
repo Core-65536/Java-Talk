@@ -23,6 +23,7 @@ public class server{
     public void Init(){
 
         try{
+            @SuppressWarnings("resource")
             ServerSocket ss = new ServerSocket(SelfServerInfo.ServerPort);
             System.out.println("Server is running on "+InetAddress.getLocalHost()+":"+SelfServerInfo.ServerPort);
             SelfServerInfo.ServerIP = InetAddress.getLocalHost().toString().substring(
@@ -35,7 +36,8 @@ public class server{
             ConnectServerInfo = (ServerInfo) ois.readObject();
             if(!Objects.equals(ConnectServerInfo.ServerIP, "0")){
                 System.out.println("Connecting with "+ConnectServerInfo.ServerName+
-                        " ,input /reject to reject the connection");
+                        " ,input /reject to reject the connection," +
+                        " input /accept to accept the connection");
             }
             BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
             // 创建一个线程读取客户端消息并打印到控制台
