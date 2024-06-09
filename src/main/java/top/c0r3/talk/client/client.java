@@ -46,9 +46,8 @@ public class client{
                 RunningMode = 1;
             }
         }
-        try{
+        try(Socket s = new Socket(ConnectTo.ServerIP, ConnectTo.ServerPort)){
             //连接到对方
-            Socket s = new Socket(ConnectTo.ServerIP, ConnectTo.ServerPort);
             PrintWriter out = new PrintWriter(s.getOutputStream(), true);
             BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in));
             //发送自己的服务端信息
