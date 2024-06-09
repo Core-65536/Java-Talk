@@ -10,7 +10,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class client extends Thread{
+public class client{
     private volatile int RunningMode = 0;
     private static ServerInfo ConnectTo = new ServerInfo();
     public void Init() {

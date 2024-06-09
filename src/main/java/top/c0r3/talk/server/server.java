@@ -11,7 +11,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Objects;
 
-public class server {
+public class server{
     public static ServerInfo SelfServerInfo = new ServerInfo();
 
     private volatile static ServerInfo ConnectServerInfo = new ServerInfo();
@@ -48,9 +48,9 @@ public class server {
                         if (message != null && message.endsWith("\n")) {
                             message = message.substring(0, message.length() - 1);
                         }
-                        System.out.println("\u001B[32m");  //设置背景色为绿色
+                        System.out.print("\u001B[32m");  //设置背景色为绿色
                         System.out.println(ConnectServerInfo.ServerName + " : " + message);
-                        System.out.println("\u001B[0m");  //重置背景色
+                        System.out.print("\u001B[0m");  //重置背景色
                     }
                 } catch (IOException e) {
                     System.out.println("连接已断开");
