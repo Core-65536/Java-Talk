@@ -1,5 +1,7 @@
 package top.c0r3.talk.server;
 
+import top.c0r3.talk.encrypt.ZzSecurityHelper;
+
 import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -16,6 +18,7 @@ public class server {
     }
 
     public void Init(){
+
         try{
             ServerSocket ss = new ServerSocket(SelfServerInfo.ServerPort);
             System.out.println("Server is running on "+InetAddress.getLocalHost()+":"+SelfServerInfo.ServerPort);
@@ -40,7 +43,12 @@ public class server {
             new Thread(() -> {
                 try {
                     String message;
+
                     while ((message = in.readLine()) != null) {
+                        message = ZzSecurityHelper.decryptAES(message);
+                        if (message != null && message.endsWith("\n")) {
+                            message = message.substring(0, message.length() - 1);
+                        }
                         System.out.println("\u001B[32m");  //设置背景色为绿色
                         System.out.println(ConnectServerInfo.ServerName + " : " + message);
                         System.out.println("\u001B[0m");  //重置背景色
@@ -48,6 +56,8 @@ public class server {
                 } catch (IOException e) {
                     System.out.println("连接已断开");
                     System.exit(0);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
             }).start();
         }catch(Exception e){
