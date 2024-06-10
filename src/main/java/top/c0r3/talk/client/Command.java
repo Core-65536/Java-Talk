@@ -3,11 +3,12 @@ package top.c0r3.talk.client;
 import top.c0r3.talk.encrypt.ZzSecurityHelper;
 import top.c0r3.talk.encrypt.generateEncryptKey;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.Scanner;
 
 public class Command {
-    public static void Process(String command) {
+    public static void Process(String command){
         if(!command.startsWith("/")){
             return;
         }
@@ -22,8 +23,18 @@ public class Command {
                 System.out.println("/record: Record the chat history");
             }
             case "/clear" -> {
-                System.out.print("\033[H\033[2J");
-                System.out.flush();
+                try{
+                    if (System.getProperty("os.name").contains("Windows")) {
+                        // Windows系统
+                        new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+                    } else {
+                        // Unix/Linux/MacOS系统
+                        System.out.print("\033[H\033[2J");
+                        System.out.flush();
+                    }
+                } catch (IOException | InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
             case "/accept", "/connect" -> {
                 //Do nothing

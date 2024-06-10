@@ -14,24 +14,35 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+/*
+* class.java : 客户端
+* 作用 : 连接到服务器，发送消息
+* @Author : Core_65536
+* */
 public class client{
+    //运行模式
+    //0 : 未连接 , 1 : 已连接
     private volatile int RunningMode = 0;
+    //连接到的服务器信息
     private static ServerInfo ConnectTo = new ServerInfo();
-    public void Init() {
+    public void Init (){//初始化
         while(RunningMode == 0){
+            //当未连接时为命令输入&等待连接模式
             Scanner sc = new Scanner(System.in);
             KeyGenerator kg = new generateEncryptKey();
-
+            //获取是否连接到服务器
+            new Thread(() ->{
+                while(true){
+                    if(server.getConnectServerInfo().ServerPort != 0){
+                        RunningMode = 1;
+                        ConnectTo = server.getConnectServerInfo();
+                        break;
+                    }
+                }
+            }).start();
+            //命令输入
             String cmd = sc.nextLine();
             Command.Process(cmd);
-
-            if(server.getConnectServerInfo().ServerPort != 0){
-                RunningMode = 1;
-                ConnectTo = server.getConnectServerInfo();
-            }
-            if(server.getConnectServerInfo().ServerPort != 0){
-                RunningMode = 1;
-            }
 
             if(cmd.equals("/connect")){
 
@@ -57,7 +68,6 @@ public class client{
             ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
             oos.writeObject(server.SelfServerInfo);
 
-            System.out.println("Connected!");
             //发送自己的信息
             new Thread(()->{
                 while(true){
@@ -77,7 +87,7 @@ public class client{
                 }
             }).start();
 
-        } catch (IOException e) {
+        } catch (IOException e ) {
             throw new RuntimeException(e);
         }
     }
